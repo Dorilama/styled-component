@@ -9,17 +9,20 @@
     "rollup:es": "rollup --config rollup/es.config.js && sed -i.bck 's/^var /self./' es.js && rm -rf es.js.bck",
     "rollup:index": "rollup --config rollup/index.config.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "test": "nyc --reporter=text --reporter=html node test/index.js"
+    "test": "nyc --reporter=text --reporter=html node test/index.js | tap-nyc"
   },
   "keywords": [],
   "author": "dorilama",
   "license": "ISC",
   "devDependencies": {
     "coveralls": "^3.1.0",
+    "jsdom": "^16.2.2",
     "nyc": "^15.1.0",
     "rollup": "^2.18.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^6.1.0",
+    "tap-nyc": "^1.0.3",
+    "tape": "^5.0.1",
     "ucjs": "^0.1.1"
   },
   "module": "./esm/index.js",
