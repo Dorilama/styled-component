@@ -1,7 +1,7 @@
 {
   "name": "@dorilama/styled-components",
   "version": "0.1.0",
-  "description": "",
+  "description": "Create functions that produce HTML content via µhtml with style attached via @dorilama/nano-css",
   "main": "./cjs/index.js",
   "scripts": {
     "build": "npm run cjs && npm run rollup:es && npm run rollup:index && npm run test",
