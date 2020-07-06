@@ -4,8 +4,9 @@ const dom = new JSDOM(``);
 global.window = dom.window;
 global.document = window.document;
 const test = require("tape");
-
-const { glob, css, styled, render, html } = require("../cjs");
+const { render, html } = require("uhtml");
+const { glob, css } = require("@dorilama/nano-css");
+const { styled, setup } = require("../cjs");
 
 glob`:root{--red:red}`;
 
@@ -44,6 +45,11 @@ const getLastRule = (n = 0) =>
   sheet.cssRules[sheet.cssRules.length - 1 - n].cssText;
 
 test("styled", (t) => {
+  t.throws(() => h1("hello"), "call component before setup");
+  t.throws(() => setup(), "call setup with no argument");
+  t.throws(() => setup({ css }), "call setup only with css");
+  // @ts-ignore
+  setup({ css, html, theme: { color: "yellow" } });
   render(document.body, h1("hello world"));
   let element = document.body.firstElementChild;
   t.equal(element.textContent, "hello world");

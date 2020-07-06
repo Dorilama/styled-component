@@ -1,5 +1,5 @@
-Create functions that produce HTML content via [µhtml](https://github.com/WebReflection/uhtml) with style attached.
-For styling it uses [@dorilama/nano-css](https://github.com/Dorilama/nano-css)
+Create functions that produce HTML content via with style attached.
+Currently uses [µhtml](https://github.com/WebReflection/uhtml) and [@dorilama/nano-css](https://github.com/Dorilama/nano-css).
 Inspired by [nano-css](https://github.com/streamich/nano-css), [goober](https://github.com/cristianbote/goober), and all the other famous libraries.
 
 ---
@@ -13,24 +13,25 @@ This is a demo project for learning purposes.
 ## Usage
 
 ```javascript
-// for convenience the module export render and html from µhtml, see https://github.com/WebReflection/uhtml
-// it also export css and glob from @dorilama/nano-css, see https://github.com/Dorilama/nano-css
-import {render, html, glob, css, styled}
+import { render, html } from "uhtml";
+import { glob, css } from "@dorilama/nano-css";
+import { setup, styled } from "@dorilama/styled-components";
+
+setup({ css, html });
 
 glob`:root{
     --font-size: 24px;
-}`
+}`;
 
-const color = 'red'
+const color = "red";
 
 const hello = styled.h1`
 font-size: var(--font-size)
 color: ${color}
-background-color: ${props=>props.bkg}
-`
+background-color: ${(props) => props.bkg}
+`;
 
-render(document.body,hello('Hello world',{bkg:'yellow'}))
-
+render(document.body, hello("Hello world", { bkg: "yellow" }));
 ```
 
 ## Security

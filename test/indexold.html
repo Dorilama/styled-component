@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>styled-components</title>
+    <script src="../index.js"></script>
+  </head>
+  <body>
+    <h1>@dorilama/nano-css</h1>
+    <p>Test page</p>
+    <p id="result">Tests are running</p>
+    <div id="target"></div>
+    <script>
+      const { render, html, glob, css, styled } = styledComponents;
+      const target = document.querySelector("#target");
+      const sheet = document.querySelector("style[data-nano-css-lama").sheet;
+      const colors = {
+        red: "rgb(255, 0, 0)",
+        black: "rgb(0, 0, 0)",
+        blue: "rgb(0, 0, 255)",
+        yellow: "rgb(255, 255, 0)",
+        purple: "rgb(128, 0, 128)",
+      };
+      let passed = true;
+      let failed = [];
+      let n = 0;
+      const getLastRule = (n = 0) =>
+        sheet.cssRules[sheet.cssRules.length - 1 - n].cssText;
+      const isEqual = (value, expected, msg = "") => {
+        if (expected === value) {
+          console.log(`${n}. ${msg} |-> OK`);
+        } else {
+          console.error(
+            `${n}. ${msg} |-> expected: ${expected} real: ${value}`
+          );
+          passed = false;
+          failed.push(`${n}.  ${msg}`);
+        }
+        n += 1;
+      };
+      const primary = "red";
+
+      const h1 = styled.h1`
+        color: ${primary};
+      `;
+
+      const p = styled.p`
+        color: purple;
+        background-color: ${({ dark }) => (dark ? "black" : "yellow")};
+      `;
+
+      const button = styled.button`
+        color: red;
+        &:hover {
+          color: yellow;
+        }
+      `;
+
+      const button2 = styled.button`
+        @media only screen and (min-width: ${({ width = "400px" }) => width}) {
+          & {
+            color: red;
+          }
+        }
+      `;
+      render(target, h1("hello world"));
+      let element = target.firstElementChild;
+      isEqual(element.textContent, "hello world");
+      isEqual(window.getComputedStyle(element).color, colors.red);
+
+      render(target, p("hello world"));
+      element = target.firstElementChild;
+      isEqual(window.getComputedStyle(element).color, colors.purple);
+      isEqual(window.getComputedStyle(element).backgroundColor, colors.yellow);
+
+      render(target, p("hello world", { dark: true }));
+      element = target.firstElementChild;
+      isEqual(window.getComputedStyle(element).color, colors.purple);
+      isEqual(window.getComputedStyle(element).backgroundColor, colors.black);
+
+      render(target, button("hello world"));
+      element = target.firstElementChild;
+      isEqual(window.getComputedStyle(element).color, colors.red);
+      isEqual(getLastRule(), "._uul00e:hover { color: yellow; }");
+
+      render(target, button2("hello world"));
+      element = target.firstElementChild;
+      isEqual(
+        window.getComputedStyle(element).color,
+        colors.red,
+        "this test should pass with a screen width bigger than 400px"
+      );
+      render(target, button2("hello world", { width: "500px" }));
+      element = target.firstElementChild;
+      isEqual(
+        window.getComputedStyle(element).color,
+        colors.red,
+        "this test should pass with a screen width bigger than 500px"
+      );
+
+      // end of tests
+      render(target, html`<div></div>`);
+      console.log(
+        `\n\nAll test are done. the result is: ${passed ? "Passed" : "Failed"}!`
+      );
+      const result = document.querySelector("#result");
+      if (passed) {
+        result.innerText = "All tests passed!";
+        result.style = "color:green; font-weight: bold;";
+      } else {
+        result.innerText = "Some tests failed! Check the console.";
+        result.style = "color:red; font-weight: bold;";
+        console.log("\n\nHere are the failed tests:");
+        failed.forEach((v) => console.log(v));
+      }
+      console.log("\n\nHere is the injected css");
+      for (let r of document.querySelector("style").sheet.cssRules) {
+        console.log(r.cssText);
+      }
+    </script>
+  </body>
+</html>

@@ -3,48 +3,42 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "html", {
-  enumerable: true,
-  get: function () {
-    return _uhtml.html;
-  }
-});
-Object.defineProperty(exports, "render", {
-  enumerable: true,
-  get: function () {
-    return _uhtml.render;
-  }
-});
-Object.defineProperty(exports, "css", {
-  enumerable: true,
-  get: function () {
-    return _nanoCss.css;
-  }
-});
-Object.defineProperty(exports, "glob", {
-  enumerable: true,
-  get: function () {
-    return _nanoCss.glob;
-  }
-});
+exports.setup = setup;
 exports.styled = void 0;
 
-var _uhtml = require("uhtml");
+let $css = (t, ...v) => null;
 
-var _nanoCss = require("@dorilama/nano-css");
+let $html = (t, ...v) => null;
 
-const styled = new Proxy(
-/**@type {Object.<string,any>} */
-{}, {
-  get(t, p, r) {
+let $theme = {};
+
+function setup(options = {}) {
+  let {
+    css,
+    html,
+    theme
+  } = options;
+  css && ($css = () => css);
+  html && ($html = () => html);
+  theme && ($theme = theme);
+
+  if (!$html() || !$css()) {
+    throw "Please setup both css and html functions";
+  }
+}
+/**
+ * @type {Object.<string,any>}
+ */
+
+
+let styled = new Proxy({}, {
+  get(target, prop) {
     return (template, ...values) => {
-      let tag = String(p);
-      let htmlTemplate =
-      /**@type {*} */
-      [`<${tag} class=`, `>`, `</${tag}>`];
+      let tag = String(prop);
+      let htmlTemplate = [`<${tag} class=`, `>`, `</${tag}>`];
       return (content, props = {}) => {
-        let className = (0, _nanoCss.css)(template, ...values.map(v => typeof v === "function" ? v(props) : v));
-        return (0, _uhtml.html)(htmlTemplate, className, content);
+        let className = $css()(template, ...values.map(v => typeof v === "function" ? v(props) : v));
+        return $html()(htmlTemplate, className, content);
       };
     };
   }

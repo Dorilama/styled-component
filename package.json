@@ -1,6 +1,6 @@
 {
   "name": "@dorilama/styled-components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create functions that produce HTML content via µhtml with style attached via @dorilama/nano-css",
   "main": "./cjs/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "unpkg": "es.js",
   "dependencies": {
-    "@dorilama/nano-css": "^0.1.0",
+    "@dorilama/nano-css": "^0.1.1",
     "uhtml": "^2.0.1"
   }
 }
