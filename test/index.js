@@ -32,7 +32,7 @@ const button = styled.button`
 `;
 
 // @ts-ignore
-const button2 = styled.button`
+const button2 = styled("button")`
   @media only screen and (min-width: ${({ width = "400px" }) => width}) {
     & {
       color: red;

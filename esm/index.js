@@ -12,24 +12,24 @@ export function setup(options = {}) {
   }
 }
 
+function styledFN(tag) {
+  let htmlTemplate = [`<${tag} class=`, `>`, `</${tag}>`];
+  return (template, ...values) => {
+    return (content, props = {}) => {
+      let className = $css()(
+        template,
+        ...values.map((v) => (typeof v === "function" ? v(props) : v))
+      );
+      return $html()(htmlTemplate, className, content);
+    };
+  };
+}
+
 /**
  * @type {Object.<string,any>}
  */
-export let styled = new Proxy(
-  {},
-  {
-    get(target, prop) {
-      return (template, ...values) => {
-        let tag = String(prop);
-        let htmlTemplate = [`<${tag} class=`, `>`, `</${tag}>`];
-        return (content, props = {}) => {
-          let className = $css()(
-            template,
-            ...values.map((v) => (typeof v === "function" ? v(props) : v))
-          );
-          return $html()(htmlTemplate, className, content);
-        };
-      };
-    },
-  }
-);
+export const styled = new Proxy(styledFN, {
+  get(target, prop) {
+    return styledFN(String(prop));
+  },
+});
