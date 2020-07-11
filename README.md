@@ -2,7 +2,7 @@ Create functions that produce HTML content via with style attached.
 Currently uses [µhtml](https://github.com/WebReflection/uhtml) and [@dorilama/nano-css](https://github.com/Dorilama/nano-css).
 Inspired by [nano-css](https://github.com/streamich/nano-css), [goober](https://github.com/cristianbote/goober), and all the other famous libraries.
 
-![Travis (.com)](https://img.shields.io/travis/com/Dorilama/styled-component) ![Coveralls github](https://img.shields.io/coveralls/github/Dorilama/styled-component) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@dorilama/styled-component) ![David](https://img.shields.io/david/Dorilama/styled-component)
+![Travis (.com)](https://img.shields.io/travis/com/Dorilama/styled-component) ![Coveralls github](https://img.shields.io/coveralls/github/Dorilama/styled-component) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@dorilama/styled-components) ![David](https://img.shields.io/david/Dorilama/styled-component)
 
 ---
 
